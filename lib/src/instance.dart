@@ -29,30 +29,43 @@ class Instance extends BackendObject {
     vApplicationInfo.ref
       ..sType = VK_STRUCTURE_TYPE_APPLICATION_INFO
       ..pNext = nullptr
-      ..pApplicationName = "Reality Core".toNativeUtf8()
+      ..pApplicationName = 'Reality Core'.toNativeUtf8()
       ..applicationVersion = makeVersion(1, 0, 0)
-      ..pEngineName = "Re-Co".toNativeUtf8()
+      ..pEngineName = 'Re-Co'.toNativeUtf8()
       ..engineVersion = makeVersion(1, 0, 0)
       ..apiVersion = makeVersion(1, 1, 0);
 
     // Setup the instance extensions.
-    List<String> extensions = [
-      "VK_KHR_surface",
-      "VK_EXT_swapchain_colorspace",
-      "VK_EXT_debug_report"
-    ];
+    final extensionCount = calloc<Uint8>();
+    validateResult(
+        vkEnumerateInstanceExtensionProperties(
+            nullptr, extensionCount, nullptr),
+        'Failed to get instance extension count!');
 
-    // If we are on Android, add the android surface.
-    if (Platform.isAndroid) {
-      extensions.add("VK_KHR_android_surface");
-    } else if (Platform.isWindows) {
-      extensions.add("VK_KHR_win32_surface");
-      extensions.add("VK_KHR_display");
-    }
+    final pExtensions = calloc<VkExtensionProperties>(extensionCount.value);
+    validateResult(
+        vkEnumerateInstanceExtensionProperties(
+            nullptr, extensionCount, pExtensions),
+        'Failed to get the instance extensions!');
 
-    final instanceExtensions = calloc<Pointer<Utf8>>(extensions.length);
-    for (int i = 0; i < extensions.length; i++) {
-      final extensionName = extensions[i];
+    // Convert them to extensions which can be given to the create info
+    // structure.
+    final instanceExtensions = calloc<Pointer<Utf8>>(extensionCount.value);
+    for (var i = 0; i < extensionCount.value; i++) {
+      final extension = pExtensions.elementAt(i).ref.extensionName;
+      var extensionName = '';
+
+      for (var j = 0; j < 256; j++) {
+        final value = extension[j];
+
+        // If the value is 0, that means that we can terminate.
+        if (value == 0) {
+          break;
+        }
+
+        extensionName += String.fromCharCode(value);
+      }
+
       instanceExtensions.elementAt(i).value = extensionName.toNativeUtf8();
     }
 
@@ -63,11 +76,11 @@ class Instance extends BackendObject {
       ..pNext = nullptr
       ..flags = 0
       ..pApplicationInfo = vApplicationInfo
-      ..enabledExtensionCount = extensions.length
+      ..enabledExtensionCount = extensionCount.value
       ..ppEnabledExtensionNames = instanceExtensions;
 
     // These are the validation layers we would need.
-    const layers = ["VK_LAYER_KHRONOS_validation"];
+    const layers = ['VK_LAYER_KHRONOS_validation'];
 
     // Get the length and create the layers using the layer strings.
     mLayerCount = layers.length;
@@ -88,7 +101,7 @@ class Instance extends BackendObject {
     // Create the instance.
     final instance = calloc<Pointer<VkInstance>>();
     validateResult(vkCreateInstance(vInstanceCreateInfo, nullptr, instance),
-        "Failed to create the Vulkan instance!");
+        'Failed to create the Vulkan instance!');
 
     // Assign the created instance to the instance object.
     vInstance = instance.value;
@@ -107,7 +120,7 @@ class Instance extends BackendObject {
       validateResult(
           vkCreateDebugUtilsMessengerEXT(
               vInstance, _createDebugMessengerCreateInfo(), nullptr, vDebugger),
-          "Failed to create the Vulkan debug messenger!");
+          'Failed to create the Vulkan debug messenger!');
     }
   }
 
@@ -190,7 +203,7 @@ class Instance extends BackendObject {
   bool _checkValidationLayerSupport() {
     final layerCount = calloc<Uint8>();
     validateResult(vkEnumerateInstanceLayerProperties(layerCount, nullptr),
-        "Failed to enumerate Vulkan instance layer count!");
+        'Failed to enumerate Vulkan instance layer count!');
 
     // Here, we basically test if the layer count is more than 0. This is
     // because, if layers are present, this will be greater than 0.
