@@ -10,19 +10,20 @@ import 'display.dart';
 import 'utilities.dart';
 
 class Instance extends BackendObject {
-  final bool isValidationEnabled;
+  late bool isValidationEnabled;
   late Pointer<VkInstance> vInstance;
   late Pointer<VkDebugUtilsMessengerEXT> vDebugMessenger;
   late int mLayerCount = 0;
   late Pointer<Pointer<Utf8>> pLayers;
-  late DynamicLibrary mValidationLayer;
 
   /// Construct the instance.
   /// If [enableValidation] is set to true, it will generate the required
   /// instance extensions and the validation layers along with the debug
   /// messenger. This might be slow and is not recommended when deploying the
   /// application, as its not needed then.
-  Instance(bool enableValidation) : isValidationEnabled = enableValidation {
+  Instance(bool enableValidation) {
+    isValidationEnabled = enableValidation && _checkValidationLayerSupport();
+
     // Create the application info structure.
     final vApplicationInfo = calloc<VkApplicationInfo>();
     vApplicationInfo.ref
@@ -76,7 +77,7 @@ class Instance extends BackendObject {
     }
 
     // Setup the validation layers if needed.
-    if (enableValidation) {
+    if (isValidationEnabled) {
       // Fill the required data to the create info structure.
       vInstanceCreateInfo.ref
         ..pNext = _createDebugMessengerCreateInfo()
@@ -93,7 +94,7 @@ class Instance extends BackendObject {
     vInstance = instance.value;
 
     // Create the debug messenger if validation is enabled.
-    if (enableValidation) {
+    if (isValidationEnabled) {
       vkCreateDebugUtilsMessengerEXT = Pointer<
                   NativeFunction<
                       VkCreateDebugUtilsMessengerEXTNative>>.fromAddress(
@@ -183,5 +184,16 @@ class Instance extends BackendObject {
       ..pfnUserCallback /* = _debugCallback */;
 
     return vCreteInfo;
+  }
+
+  /// Check if the platform supports validation layers.
+  bool _checkValidationLayerSupport() {
+    final layerCount = calloc<Uint8>();
+    validateResult(vkEnumerateInstanceLayerProperties(layerCount, nullptr),
+        "Failed to enumerate Vulkan instance layer count!");
+
+    // Here, we basically test if the layer count is more than 0. This is
+    // because, if layers are present, this will be greater than 0.
+    return layerCount.value > 0;
   }
 }

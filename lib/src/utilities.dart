@@ -25,8 +25,12 @@ class Extent3D {
   int mHeight = 0;
   int mDepth = 0;
 
-  /// Default constructor.
-  constructor() {}
+  /// Construct the extent structure using its [width], [height] and optional
+  /// [depth].
+  Extent3D(int width, int height, [int depth = 1])
+      : mWidth = width,
+        mHeight = height,
+        mDepth = depth;
 
   /// Set the width as [width] and return `this`.
   Extent3D setWidth(int width) {

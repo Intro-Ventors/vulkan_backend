@@ -92,9 +92,11 @@ abstract class DeviceBoundObject extends DeviceReference {
     for (int i = 0; i < vMemoryProperties.ref.memoryTypeCount; i++) {
       // If the memory types contain the required property flags, we choose that
       // index as the memory type.
-      if (typeFilter & (1 << i) == typeFilter &&
-          (vMemoryProperties.ref.memoryTypes[i].propertyFlags & properties) ==
-              properties) {
+      final filter = typeFilter & (1 << i);
+      final memoryType = vMemoryProperties.ref.memoryTypes[i];
+      final propertyFlags = memoryType.propertyFlags & properties;
+
+      if (filter != 0 && propertyFlags == properties) {
         return i;
       }
     }
