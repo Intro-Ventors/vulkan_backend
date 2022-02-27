@@ -1,7 +1,22 @@
 library vulkan_backend;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/backend_object.dart';
+export 'src/buffer.dart';
+export 'src/descriptor_set_manager.dart';
+export 'src/descriptor_set.dart';
+export 'src/device_bound_object.dart';
+export 'src/device_reference.dart';
+export 'src/device.dart';
+export 'src/display_bound.dart';
+export 'src/display.dart';
+export 'src/graphics_pipeline.dart';
+export 'src/image.dart';
+export 'src/instance_bound_object.dart';
+export 'src/instance.dart';
+export 'src/off_screen.dart';
+export 'src/one_time_command_buffer.dart';
+export 'src/queue.dart';
+export 'src/render_target.dart';
+export 'src/shader.dart';
+export 'src/swapchain.dart';
+export 'src/utilities.dart';
