@@ -34,6 +34,90 @@ void main() {
   //  instance.destroy();
   //});
 
+  // Test instance.
+  test("Instance test.", () {
+    // Create the instance. For now, we turn off validation.
+    final instance = Instance(false);
+    instance.destroy();
+  });
+
+  // Test device.
+  test("Device test.", () {
+    // Create the instance. For now, we turn off validation.
+    final instance = Instance(false);
+
+    // Create the device.
+    final device = instance.createDevice();
+    device.destroy();
+    instance.destroy();
+  });
+
+  // Test image.
+  test("Image test.", () {
+    // Create the instance. For now, we turn off validation.
+    final instance = Instance(false);
+
+    // Create the device.
+    final device = instance.createDevice();
+
+    // Create the image.
+    final image = device.createImage(
+        Extent3D(1, 1, 1), VK_FORMAT_B8G8R8A8_SRGB, VK_IMAGE_TYPE_2D, 1, 1);
+
+    image.destroy();
+    device.destroy();
+    instance.destroy();
+  });
+
+  // Test shader.
+  test("Shader test.", () {
+    // Create the instance. For now, we turn off validation.
+    final instance = Instance(false);
+
+    // Create the device.
+    final device = instance.createDevice();
+
+    // Create the shader.
+    final shader = device.createShader(
+        Directory.current.path + "/test/assets/Occlusion.vert.fsc",
+        VK_SHADER_STAGE_VERTEX_BIT);
+
+    // Add resource info and crete the descriptor set layout.
+    shader.addResourceInfo(0, 1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
+    shader.createDescriptorSetLayout();
+
+    shader.destroy();
+    device.destroy();
+    instance.destroy();
+  });
+
+  // Test buffer.
+  test("Buffer test.", () {
+    // Create the instance. For now, we turn off validation.
+    final instance = Instance(false);
+
+    // Create the device.
+    final device = instance.createDevice();
+
+    // Create buffer.
+    final buffer = device.createBuffer(1024, Buffer.BUFFER_TYPE_STAGING);
+
+    // Map the buffer memory.
+    final pointer = buffer.mapMemory();
+
+    // Fill up the buffer with 0xff.
+    for (int i = 0; i < 1024; i++) {
+      pointer.elementAt(i).value = 0xff;
+    }
+
+    // Unmap the memory later.
+    buffer.unmapMemory();
+
+    buffer.destroy();
+    device.destroy();
+    instance.destroy();
+  });
+
   test("All in one test", () {
     // Create the instance. For now, we turn off validation.
     final instance = Instance(false);

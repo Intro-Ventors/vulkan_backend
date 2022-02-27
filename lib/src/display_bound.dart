@@ -1,7 +1,3 @@
-import 'dart:ffi';
-
-import 'package:vulkan/vulkan.dart';
-
 import 'device.dart';
 import 'display.dart';
 import 'render_target.dart';

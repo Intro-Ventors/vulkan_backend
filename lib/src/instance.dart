@@ -161,10 +161,10 @@ class Instance extends BackendObject {
   }
 
   /// Debug callback function.
-  int _debugCallback(
-      int severity, int type, Pointer callbackData, Pointer useData) {
-    return VK_FALSE;
-  }
+  // int _debugCallback(
+  //     int severity, int type, Pointer callbackData, Pointer useData) {
+  //   return VK_FALSE;
+  // }
 
   /// Create the debug messenger create info structure.
   Pointer<VkDebugUtilsMessengerCreateInfoEXT>
