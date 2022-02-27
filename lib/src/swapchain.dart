@@ -5,11 +5,11 @@ import 'image.dart';
 
 class Swapchain extends DeviceReference {
   final Display mDisplay;
-  var mPresentMode;
+  final int mPresentMode;
   List<Image> mImages = List.empty(growable: true);
 
   /// Construct the swapchain using the parent [device] and the [display] to which the frames are presented to as specified by the [presentMode]
-  Swapchain(Device device, Display display, var presentMode)
+  Swapchain(Device device, Display display, int presentMode)
       : mDisplay = display,
         mPresentMode = presentMode,
         super(device) {}

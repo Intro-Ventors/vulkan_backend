@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:test/test.dart';
@@ -44,17 +45,31 @@ void main() {
     final image = device.createImage(
         Extent3D(1, 1, 1), VK_FORMAT_B8G8R8A8_SRGB, VK_IMAGE_TYPE_2D, 1, 1);
 
-    final currentDirectory = Directory.current;
-
     // Create the shader.
     final shader = device.createShader(
-        currentDirectory.path + "/test/assets/Occlusion.vert.fsc",
+        Directory.current.path + "/test/assets/Occlusion.vert.fsc",
         VK_SHADER_STAGE_VERTEX_BIT);
 
     // Add resource info and crete the descriptor set layout.
     shader.addResourceInfo(0, 1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
     shader.createDescriptorSetLayout();
 
+    // Create buffer.
+    final buffer = device.createBuffer(1024, Buffer.BUFFER_TYPE_STAGING);
+
+    // Map the buffer memory.
+    final pointer = buffer.mapMemory();
+
+    // Fill up the buffer with 0xff.
+    for (int i = 0; i < 1024; i++) {
+      pointer.elementAt(i).value = 0xff;
+    }
+
+    // Unmap the memory later.
+    buffer.unmapMemory();
+
+    // Destroy the allocated resources.
+    buffer.destroy();
     shader.destroy();
     image.destroy();
     device.destroy();

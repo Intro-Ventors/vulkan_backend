@@ -72,7 +72,7 @@ class Device extends InstanceBoundObject {
   }
 
   /// Create a new buffer object.
-  Buffer createBuffer(int size, var bufferType) {
+  Buffer createBuffer(int size, int bufferType) {
     return Buffer(this, size, bufferType);
   }
 
@@ -83,7 +83,7 @@ class Device extends InstanceBoundObject {
   }
 
   /// Create a new shader.
-  Shader createShader(String file, var type) {
+  Shader createShader(String file, int type) {
     return Shader(this, file, type);
   }
 
@@ -106,7 +106,7 @@ class Device extends InstanceBoundObject {
 
   /// Create a display bound render target.
   DisplayBound createDisplayBoundRenderTarget(
-      Display display, int frameCount, var presentMode) {
+      Display display, int frameCount, int presentMode) {
     return DisplayBound(this, frameCount, display, presentMode);
   }
 
