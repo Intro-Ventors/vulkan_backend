@@ -1,7 +1,6 @@
 name: vulkan_backend
 description: Vulkan backend for the Reality Core project.
 version: 0.0.1
-homepage:
 
 publish_to: none
 
@@ -10,7 +9,7 @@ environment:
 
 dependencies:
   ffi: ^1.1.1
-  vulkan: 
+  vulkan:
     git: https://github.com/Intro-Ventors/dart-vulkan
 
 dev_dependencies:

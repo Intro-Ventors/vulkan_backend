@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:test/test.dart';
 import 'package:vulkan/vulkan.dart';
 import 'package:vulkan_backend/vulkan_backend.dart';
@@ -42,6 +44,18 @@ void main() {
     final image = device.createImage(
         Extent3D(1, 1, 1), VK_FORMAT_B8G8R8A8_SRGB, VK_IMAGE_TYPE_2D, 1, 1);
 
+    final currentDirectory = Directory.current;
+
+    // Create the shader.
+    final shader = device.createShader(
+        currentDirectory.path + "/test/assets/Occlusion.vert.fsc",
+        VK_SHADER_STAGE_VERTEX_BIT);
+
+    // Add resource info and crete the descriptor set layout.
+    shader.addResourceInfo(0, 1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER);
+    shader.createDescriptorSetLayout();
+
+    shader.destroy();
     image.destroy();
     device.destroy();
     instance.destroy();

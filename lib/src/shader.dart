@@ -71,7 +71,39 @@ class Shader extends DeviceReference {
 
   /// Create the descriptor set layout.
   /// Make sure that all the resources are added before calling this function.
-  void createDescriptorSetLayout() {}
+  void createDescriptorSetLayout() {
+    // Create the descriptor set bindings.
+    final pBindings =
+        calloc<VkDescriptorSetLayoutBinding>(mResourceInfo.length);
+    for (int i = 0; i < mResourceInfo.length; i++) {
+      final resource = mResourceInfo[i];
+
+      pBindings.elementAt(i).ref
+        ..binding = resource.mBinding
+        ..descriptorCount = 1 // TODO
+        ..descriptorType = resource.mType
+        ..pImmutableSamplers = nullptr
+        ..stageFlags = mType;
+    }
+
+    // Create the create info structure.
+    final vCreateInfo = calloc<VkDescriptorSetLayoutCreateInfo>();
+    vCreateInfo.ref
+      ..sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO
+      ..pNext = nullptr
+      ..flags = 0
+      ..bindingCount = mResourceInfo.length
+      ..pBindings = pBindings;
+
+    // Create the descriptor set layout.
+    final pDescriptorSetLayout = calloc<Pointer<VkDescriptorSetLayout>>();
+    validateResult(
+        vkCreateDescriptorSetLayout(mDevice.getLogicalDevice(), vCreateInfo,
+            nullptr, pDescriptorSetLayout),
+        "Failed to create the Vulkan descriptor set layout!");
+
+    vDescriptorSetLayout = pDescriptorSetLayout.value;
+  }
 
   /// Get the shader module.
   Pointer<VkShaderModule> getModule() {
