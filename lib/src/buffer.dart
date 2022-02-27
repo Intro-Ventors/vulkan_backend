@@ -23,8 +23,8 @@ class Buffer extends DeviceBoundObject {
       : mSize = size,
         mType = type,
         super(device) {
-    int bufferUsage = 0;
-    int memoryType = 0;
+    var bufferUsage = 0;
+    var memoryType = 0;
 
     // Resolve the buffer usage and memory type.
     switch (mType) {
@@ -60,7 +60,7 @@ class Buffer extends DeviceBoundObject {
         break;
 
       default:
-        throw BackendError("Invalid buffer type!");
+        throw BackendError('Invalid buffer type!');
     }
 
     // Create the buffer.
@@ -83,7 +83,7 @@ class Buffer extends DeviceBoundObject {
   Pointer<Uint8> mapMemory([int size = -1, int offset = 0]) {
     // Check if the buffer type is able to handle mapping.
     if (mType & BUFFER_TYPE_STAGING | BUFFER_TYPE_UNIFORM == 0) {
-      throw BackendError("Buffers of this type cannot be mapped!");
+      throw BackendError('Buffers of this type cannot be mapped!');
     }
 
     // If the size is less than 0, we set the actual buffer size.
@@ -95,7 +95,7 @@ class Buffer extends DeviceBoundObject {
     // Validate and check if the incoming size and/ of offset is requesting
     // out of bound memory.
     else if (size + offset > mSize) {
-      throw BackendError("Invalid size and/ or offset!");
+      throw BackendError('Invalid size and/ or offset!');
     }
 
     // Map memory to the local address space.
@@ -103,7 +103,7 @@ class Buffer extends DeviceBoundObject {
     validateResult(
         vkMapMemory(mDevice.getLogicalDevice(), getDeviceMemory(), offset, size,
             0, pointer),
-        "Failed to map the buffer memory to the local address space!");
+        'Failed to map the buffer memory to the local address space!');
 
     mIsBufferMapped = true;
     return pointer.value;
@@ -160,7 +160,7 @@ class Buffer extends DeviceBoundObject {
     validateResult(
         vkCreateBuffer(
             mDevice.getLogicalDevice(), vCreateInfo, nullptr, pBuffer),
-        "Failed to create the Vulkan buffer!");
+        'Failed to create the Vulkan buffer!');
 
     vBuffer = pBuffer.value;
   }

@@ -5,6 +5,7 @@ class Extent2D {
   int mHeight = 0;
 
   /// Default constructor.
+  // ignore: always_declare_return_types
   constructor() {}
 
   /// Set the width as [width] and return `this`.
@@ -55,7 +56,7 @@ class BackendError implements Exception {
   final String mErrorMessage;
 
   /// Create the backend error using an error [message]. This is optional.
-  BackendError([String message = ""]) : mErrorMessage = message;
+  BackendError([String message = '']) : mErrorMessage = message;
 
   // Get the error message.
   String getMessage() => mErrorMessage;

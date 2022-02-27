@@ -1,5 +1,4 @@
 import 'dart:ffi';
-import 'dart:io';
 
 import 'package:vulkan/vulkan.dart';
 import 'package:ffi/ffi.dart';
@@ -85,7 +84,7 @@ class Instance extends BackendObject {
     // Get the length and create the layers using the layer strings.
     mLayerCount = layers.length;
     pLayers = calloc<Pointer<Utf8>>(mLayerCount);
-    for (int i = 0; i < mLayerCount; i++) {
+    for (var i = 0; i < mLayerCount; i++) {
       pLayers[i] = layers[i].toNativeUtf8();
     }
 

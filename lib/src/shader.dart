@@ -35,8 +35,8 @@ class Shader extends DeviceReference {
 
     // Convert the shader code to a native buffer compatible type.
     final pShaderCode = calloc<Uint32>(shaderCode.length);
-    for (int i = 0, j = 0; i < shaderCode.length; i += 4, j++) {
-      final int data = shaderCode[i + 0] << 24 |
+    for (var i = 0, j = 0; i < shaderCode.length; i += 4, j++) {
+      final data = shaderCode[i + 0] << 24 |
           shaderCode[i + 1] << 16 |
           shaderCode[i + 2] << 8 |
           shaderCode[i + 3] << 0;
@@ -58,7 +58,7 @@ class Shader extends DeviceReference {
     validateResult(
         vkCreateShaderModule(
             mDevice.getLogicalDevice(), vCreateInfo, nullptr, pShaderModule),
-        "Failed to create the Vulkan shader module!");
+        'Failed to create the Vulkan shader module!');
 
     vShaderModule = pShaderModule.value;
   }
@@ -75,7 +75,7 @@ class Shader extends DeviceReference {
     // Create the descriptor set bindings.
     final pBindings =
         calloc<VkDescriptorSetLayoutBinding>(mResourceInfo.length);
-    for (int i = 0; i < mResourceInfo.length; i++) {
+    for (var i = 0; i < mResourceInfo.length; i++) {
       final resource = mResourceInfo[i];
 
       pBindings.elementAt(i).ref
@@ -100,7 +100,7 @@ class Shader extends DeviceReference {
     validateResult(
         vkCreateDescriptorSetLayout(mDevice.getLogicalDevice(), vCreateInfo,
             nullptr, pDescriptorSetLayout),
-        "Failed to create the Vulkan descriptor set layout!");
+        'Failed to create the Vulkan descriptor set layout!');
 
     vDescriptorSetLayout = pDescriptorSetLayout.value;
   }

@@ -9,7 +9,7 @@ class Display extends InstanceBoundObject {
   /// Construct the display using the [instance] and [extent].
   Display(Instance instance, Extent2D extent)
       : mExtent = extent,
-        super(instance) {}
+        super(instance);
 
   /// Get the extent of the display.
   Extent2D getExtent() {

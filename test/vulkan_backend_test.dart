@@ -35,14 +35,14 @@ void main() {
   //});
 
   // Test instance.
-  test("Instance test.", () {
+  test('Instance test.', () {
     // Create the instance. For now, we turn off validation.
     final instance = Instance(false);
     instance.destroy();
   });
 
   // Test device.
-  test("Device test.", () {
+  test('Device test.', () {
     // Create the instance. For now, we turn off validation.
     final instance = Instance(false);
 
@@ -53,7 +53,7 @@ void main() {
   });
 
   // Test image.
-  test("Image test.", () {
+  test('Image test.', () {
     // Create the instance. For now, we turn off validation.
     final instance = Instance(false);
 
@@ -70,7 +70,7 @@ void main() {
   });
 
   // Test shader.
-  test("Shader test.", () {
+  test('Shader test.', () {
     // Create the instance. For now, we turn off validation.
     final instance = Instance(false);
 
@@ -79,7 +79,7 @@ void main() {
 
     // Create the shader.
     final shader = device.createShader(
-        Directory.current.path + "/test/assets/Occlusion.vert.fsc",
+        Directory.current.path + '/test/assets/Occlusion.vert.fsc',
         VK_SHADER_STAGE_VERTEX_BIT);
 
     // Add resource info and crete the descriptor set layout.
@@ -92,7 +92,7 @@ void main() {
   });
 
   // Test buffer.
-  test("Buffer test.", () {
+  test('Buffer test.', () {
     // Create the instance. For now, we turn off validation.
     final instance = Instance(false);
 
@@ -106,7 +106,7 @@ void main() {
     final pointer = buffer.mapMemory();
 
     // Fill up the buffer with 0xff.
-    for (int i = 0; i < 1024; i++) {
+    for (var i = 0; i < 1024; i++) {
       pointer.elementAt(i).value = 0xff;
     }
 
@@ -118,7 +118,7 @@ void main() {
     instance.destroy();
   });
 
-  test("All in one test", () {
+  test('All in one test', () {
     // Create the instance. For now, we turn off validation.
     final instance = Instance(false);
 
@@ -131,7 +131,7 @@ void main() {
 
     // Create the shader.
     final shader = device.createShader(
-        Directory.current.path + "/test/assets/Occlusion.vert.fsc",
+        Directory.current.path + '/test/assets/Occlusion.vert.fsc',
         VK_SHADER_STAGE_VERTEX_BIT);
 
     // Add resource info and crete the descriptor set layout.
@@ -145,7 +145,7 @@ void main() {
     final pointer = buffer.mapMemory();
 
     // Fill up the buffer with 0xff.
-    for (int i = 0; i < 1024; i++) {
+    for (var i = 0; i < 1024; i++) {
       pointer.elementAt(i).value = 0xff;
     }
 

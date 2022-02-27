@@ -87,7 +87,7 @@ class Image extends DeviceBoundObject {
     final pImage = calloc<Pointer<VkImage>>();
     validateResult(
         vkCreateImage(mDevice.getLogicalDevice(), vCreateInfo, nullptr, pImage),
-        "Failed to create the Vulkan image!");
+        'Failed to create the Vulkan image!');
 
     vImage = pImage.value;
   }
@@ -114,7 +114,7 @@ class Image extends DeviceBoundObject {
     validateResult(
         vkCreateImageView(
             mDevice.getLogicalDevice(), vCreateInfo, nullptr, pImageView),
-        "Failed to create the Vulkan image view!");
+        'Failed to create the Vulkan image view!');
 
     vImageView = pImageView.value;
   }
@@ -153,7 +153,7 @@ class Image extends DeviceBoundObject {
     validateResult(
         vkCreateSampler(
             mDevice.getLogicalDevice(), vCreateInfo, nullptr, pSampler),
-        "Failed to create the Vulkan image sampler!");
+        'Failed to create the Vulkan image sampler!');
 
     vImageSampler = pSampler.value;
   }

@@ -13,7 +13,7 @@ abstract class RenderTarget extends DeviceReference {
   RenderTarget(Device device, int frameCount, Extent2D extent)
       : mFrameCount = frameCount,
         mExtent = extent,
-        super(device) {}
+        super(device);
 
   void getFrameBuffers() {}
   void getRenderPass() {}

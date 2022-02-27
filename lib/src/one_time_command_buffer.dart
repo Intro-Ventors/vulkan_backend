@@ -35,7 +35,7 @@ class OneTimeCommandBuffer extends DeviceReference {
 
     // Begin recording.
     validateResult(vkBeginCommandBuffer(vCommandBuffer, vBeginInfo),
-        "Failed to begin command buffer recording!");
+        'Failed to begin command buffer recording!');
   }
 
   /// End command buffer recording.
@@ -88,21 +88,21 @@ class OneTimeCommandBuffer extends DeviceReference {
       validateResult(
           vkCreateFence(
               mDevice.getLogicalDevice(), vFenceCreateInfo, nullptr, pFence),
-          "Failed to create the Vulkan fence!");
+          'Failed to create the Vulkan fence!');
     }
 
     // Submit the queue.
     validateResult(
         vkQueueSubmit(mDevice.getQueue().getTransferQueue(), 1, vSubmitInfo,
             pFence.value),
-        "Failed to submit the queue!");
+        'Failed to submit the queue!');
 
     // If enabled, wait till the GPU finishes the queue execution and destroy
     // the fence.
     if (waitExecution) {
       validateResult(
           vkWaitForFences(mDevice.getLogicalDevice(), 1, pFence, VK_TRUE, -1),
-          "Failed to wait till the queue finished execution!");
+          'Failed to wait till the queue finished execution!');
 
       // Destroy the fence.
       vkDestroyFence(mDevice.getLogicalDevice(), pFence.value, nullptr);
@@ -134,7 +134,7 @@ class OneTimeCommandBuffer extends DeviceReference {
     validateResult(
         vkCreateCommandPool(
             mDevice.getLogicalDevice(), vCreateInfo, nullptr, pCommandPool),
-        "Failed to create the Vulkan command pool!");
+        'Failed to create the Vulkan command pool!');
 
     vCommandPool = pCommandPool.value;
   }
@@ -155,7 +155,7 @@ class OneTimeCommandBuffer extends DeviceReference {
     validateResult(
         vkAllocateCommandBuffers(
             mDevice.getLogicalDevice(), vAllocateInfo, pCommandBuffer),
-        "Failed to allocate the Vulkan one time command buffer!");
+        'Failed to allocate the Vulkan one time command buffer!');
 
     vCommandBuffer = pCommandBuffer.value;
   }

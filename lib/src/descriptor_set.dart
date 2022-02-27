@@ -23,7 +23,7 @@ class BufferResource extends Resource {
   /// Create the buffer resource using its [buffer] and its respective [binding].
   BufferResource(Buffer buffer, int binding)
       : mBuffer = buffer,
-        super(binding) {}
+        super(binding);
 }
 
 class DescriptorSet {
@@ -33,5 +33,5 @@ class DescriptorSet {
   /// Construct the descriptor set using the image and buffer resources.
   DescriptorSet(List<ImageResource> images, List<BufferResource> buffers)
       : mImageResources = images,
-        mBufferResources = buffers {}
+        mBufferResources = buffers;
 }

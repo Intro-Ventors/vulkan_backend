@@ -7,7 +7,7 @@ class DescriptorSetManager extends DeviceReference {
   List<DescriptorSet> mDescriptorSets = List.empty(growable: true);
 
   /// Construct the descriptor set manager using its parent [device].
-  DescriptorSetManager(Device device) : super(device) {}
+  DescriptorSetManager(Device device) : super(device);
 
   void getDescriptorPool() {}
 

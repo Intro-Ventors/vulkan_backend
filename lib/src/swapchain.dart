@@ -12,7 +12,7 @@ class Swapchain extends DeviceReference {
   Swapchain(Device device, Display display, int presentMode)
       : mDisplay = display,
         mPresentMode = presentMode,
-        super(device) {}
+        super(device);
 
   /// Get the number of images stored in the images vector.
   int getImageCount() {

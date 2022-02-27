@@ -122,7 +122,7 @@ class Device extends InstanceBoundObject {
     validateResult(
         vkEnumeratePhysicalDevices(
             mInstance.getInstance(), candidateCount, nullptr),
-        "Failed to enumerate candidate physical device count.");
+        'Failed to enumerate candidate physical device count.');
 
     // Get the candidate physical devices.
     final vCandidatePhysicalDevices =
@@ -130,7 +130,7 @@ class Device extends InstanceBoundObject {
     validateResult(
         vkEnumeratePhysicalDevices(
             mInstance.getInstance(), candidateCount, vCandidatePhysicalDevices),
-        "Failed to enumerate candidate physical devices.");
+        'Failed to enumerate candidate physical devices.');
 
     // Iterate over the candidate physical devices to pick the right one.
     for (var i = 0; i < candidateCount.value; i++) {
@@ -152,7 +152,7 @@ class Device extends InstanceBoundObject {
     // Validate if a physical device is selected.
     if (vPhysicalDevice == nullptr) {
       validateResult(
-          VK_ERROR_UNKNOWN, "Failed to find a suitable physical device!");
+          VK_ERROR_UNKNOWN, 'Failed to find a suitable physical device!');
     }
 
     // Create the queue.
@@ -161,8 +161,8 @@ class Device extends InstanceBoundObject {
 
   /// Check if the physical device is suitable for our use.
   bool _isPhysicalDeviceSuitable(Pointer<VkPhysicalDevice> vCandidate) {
-    int graphicsFamily = -1;
-    int transferFamily = -1;
+    var graphicsFamily = -1;
+    var transferFamily = -1;
 
     // Get the physical device queue family property count.
     final count = calloc<Int32>();
@@ -226,7 +226,7 @@ class Device extends InstanceBoundObject {
     // Iterate through the extension names and create the native compatible
     // strings.
     final pExtensions = calloc<Pointer<Utf8>>(pExtensionNames.length);
-    for (int i = 0; i < pExtensionNames.length; i++) {
+    for (var i = 0; i < pExtensionNames.length; i++) {
       pExtensions.elementAt(i).value = pExtensionNames[i].toNativeUtf8();
     }
 
@@ -247,7 +247,7 @@ class Device extends InstanceBoundObject {
     final pLogicalDevice = calloc<Pointer<VkDevice>>();
     validateResult(
         vkCreateDevice(vPhysicalDevice, vCreateInfo, nullptr, pLogicalDevice),
-        "Failed to create the Vulkan logical device!");
+        'Failed to create the Vulkan logical device!');
 
     vLogicalDevice = pLogicalDevice.value;
 
